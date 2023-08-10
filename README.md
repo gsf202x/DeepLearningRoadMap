@@ -201,6 +201,8 @@ markdown可以自动将标题识别为锚点，可以生成一个指向该标题
 
 ### 5. 强大的AI技术辅助
 
+#### 5.1 AI功能与可用AI汇总
+
 AI在帮助我们搜索、翻译、解释概念、分析文件等许多方面已经取得了惊人成绩，灵活使用能极大的帮助我们提升学习效率。需要注意的是AI的解答很有可能是错误的，特别是数学类的问题，使用时需要仔细甄别。目前比较活跃的AI模型有以下几个(在密钥管理中有地址和使用方式的介绍，及时更新)，为了降低错误概率，我们可以一个问题同时向多个AI提问，根据不同的回答综合得出合理答案。一个综合的使用案例可以参考视频[^ref15]，已经可以做到辅助写代码和论文正文了。
 
 | 网站           | 介绍                                  |
@@ -211,6 +213,17 @@ AI在帮助我们搜索、翻译、解释概念、分析文件等许多方面已
 | POE            | AI对话网站聚合                        |
 | Github Copilot | 专注代码生成                          |
 
+#### 5.2 使用AI分析论文示例
+
+Claude目前已经支持上传pdf并按照自定义指令总结文章，效果相当出色，我们选择一篇论文[^ref19]进行分析的结果如下图所示：
+
+![image-20230809010629964](https://img.tucang.cc/api/image/show/fa95538bc530f817b50b2779fa780bed)
+
+作为对照，这篇论文的摘要是：
+
+> We propose a deep learning method for event-driven stock market prediction. First, events are extracted from news text, and represented as dense vectors, trained using a novel neural tensor network. Second, a deep convolutional neural network is used to model both short-term and long-term influences of events on stock price movements. Experimental results show that our model can achieve nearly 6% improvements on S&P 500 index prediction and individual stock prediction, respectively, compared to state-of-the-art baseline methods. In addition, market simulation results show that our system is more capable of making profits than previously reported systems trained on S&P 500 stock historical data.
+
+就这篇文章而言，可以认为AI的总结与作者的摘要几乎没有分别，信息一致、语言流畅，甚至事件嵌入更优这一结论是原文摘要没有提到的一个优点。我们也可以据此引入一个AI分析论文的正确性校验机制，在分析全文之前，**先让AI写摘要，人工与作者的摘要比对，核对一致后再让AI分析更具体的内容。**
 
 ### 章节注释
 
@@ -220,10 +233,246 @@ AI在帮助我们搜索、翻译、解释概念、分析文件等许多方面已
 
 ## Part 1—搜索种子文献
 
+### 1. 搜索种子文献
 
-#### ~~*2.1 多层感知机*~~
+我们使用[^ref5]的方式尝试搜索种子文献。Web Of Science的登录信息在密钥管理中，可用的HistCite软件在[这里](https://pan.baidu.com/s/1VzwZMMFq2-o8urWK8juVqA?pwd=ab12)下载。
 
-~~*理论部分，参考知乎专栏[神经网络快速入门：什么是多层感知器和反向传播？](https://zhuanlan.zhihu.com/p/23937778)。文中的学生分数预测案例，模型实现过程[在这里](ModelLearning/MLP.md)，同目录下有对应的notebook文件，可以用于运行。*~~
+#### 1.1 确定搜索关键词
+
+我们希望将深度学习技术运用在时间序列，特别是股价的预测上，关键词可以向这方面考靠拢，我们整理出了以下排列组合：
+
+| 编号 | 主题                                |
+| ---- | ----------------------------------- |
+| 1    | deep learning price                 |
+| 2    | deep learning stock price           |
+| 3    | deep learning future price          |
+| 4    | deep learning price prediction      |
+| 5    | deep learning financial             |
+| 6    | deep learning financial market      |
+| 7    | deep learning time series           |
+| 8    | deep learning finantial time series |
+
+#### 1.2 搜索与分析的操作流程
+
+我们以deep learning price为例记录操作流程。首先登录Web Of Science，在搜索前选择数据库Web Of Science核心合集。
+
+![修改数据库](https://img.tucang.cc/api/image/show/933f7ba0212a5629ac655bc22377306f)
+
+其他搜索条件默认，选择搜索文献，得到的查询结果如下：![WoS查询结果](https://p0.meituan.net/csc/92259bb59225eb5a0cdf83a90a752a3b421301.png)
+
+有2748条查询结果，相当多的数量。现在我们使用导出功能将文献本身它的参考文献导出，用来做关联分析。点击导出-纯文本文件，记录内容选择全记录与引用的参考文献，注意到提示一次不能超过500条记录，我们选择用记录n到m的方式分段导出，2748条查询结果需要导出6次，分别命名。
+
+![image-20230808110808343](https://img.tucang.cc/api/image/show/ddbfb53d0629be010385f2ea5019f781)
+
+6个文件全部导出后，我们把所有文件放到HistCite Pro2.1的TXT目录中，效果如下：
+
+![image-20230808111954537](https://img.tucang.cc/api/image/show/779a3f457c2e9bf6d0a5ca88f6097042)然后回到上一级目录，双击main.exe，在弹出的命令行中输入1，按回车，会看到文件解析的日志。如果看到如下的日志信息，说明文件格式不对，需要手工修复，我们可以使用带有正则表达式功能的编辑器进行批量替换，例如Pycharm，或者Sublime Text，NotePad++等。开启正则表达式替换，将`PD \d{4}`全部替换为`PD`。
+
+![image-20230808112412069](https://img.tucang.cc/api/image/show/2f0b86b625096355d4d82d6aaa11510e)
+
+替换后再次运行main.exe，应该不会有任何报错了，如下图所示：
+
+![image-20230808113720131](https://img.tucang.cc/api/image/show/ceb381d58d0f04e58da3cc0fb37d46a5)
+
+#### 1.3 读懂HistCite分析结果
+
+分析完成后HistCite会弹出一个网页，效果如下图所示：
+
+![image-20230811000413028](https://img.tucang.cc/api/image/show/46402e389f1b3340798c28077efc76f1)
+
+HistCite主要提供了3个角度的分析结果，见图中标号。分别解释如下：
+
+##### 1.3.1 LCS被引次数
+
+图中标号1处的四个字段的直接解释如下[^18]：
+
+| 列名 | 全称                       | 直接解释                                 |
+| ---- | -------------------------- | ---------------------------------------- |
+| LCS  | Local Citatioin Score      | 在当前文献集合里被引用的次数             |
+| GCS  | Global Citation Score      | 文章被引总次数，WoS提供数据              |
+| LCR  | Local Cited References     | 本文引用的文献属于在当前文献集合中的数量 |
+| CR   | Number Of Cited References | 本文的所有文献引用数量                   |
+
+更加详细的解释参考[^ref17]，其中提到：
+
+> 1. GCS是global citation score，即引用次数，也就是你在web of science网站上看到的引用次数。
+> 2. CR是cited references，即文章引用的参考文献数量。如果某篇文献引用了50篇参考文献，则CR为50。这个数据通常能帮我们初步判断一下某篇文献是一般论文还是综述。
+> 3. LCS和LCR是histcite里比较重要的两个参数。LCS是local citation score的简写，即本地引用次数。与gcs相对应，gcs是总被引次数。lcs是某篇文章在当前数据库中被应用的次数。所以LCS一定是小于或等于GCS的。一篇文章GCS很高，说明被全球科学家关注较多。但是如果一篇GCS很高，而LCS很小，说明这种关注主要来自与你不是同一领域的科学家。此时，这篇文献对你的参考意义可能不大。举个例子，2003年发表在nature上的两篇文章P1 （GCS:580,LCS:12) 和 P2(GCS:36,LCS：24)。第一篇文章gcs很高，lcs很低，说明关注这篇文章的绝大部分作者与你关注的方向不同。而第二篇文章gcs较低，但LCS比第一批要高，即很多引用p2的文章都在当前数据库，也即与你的研究方向相关。所以，p1 p2相比，p2应该更贴近你的研究方向，参考价值更大。
+> 4. LCR与CR对应是local cited references，是指某篇文献引用的所有文献中，有多少篇文献在当前数据库中。如果最近有两篇文章，p1 p2,都引用了30篇参考文献，其中p1引用的30篇文献中有20篇在当前数据库，p2只有2篇文献在当前数据库。此时，p1相对更有参考价值，因为它引用了大量和你的研究相关的文献。根据LCS可以快速定位一个领域的经典文献， LCR可以快速找出最新的文献中哪些是和自己研究方向最相关的文章。
+
+因此，LCS被引次数是一个重要指标，我们可以点击LCS，HistCite会自动根据LCS从大到小的顺序排列，方便我们找到高引文献。
+
+##### 1.3.2 Cited References共引次数
+
+我们研究的主题：使用深度学习方法预测时间序列是一个衍生/交叉学科，其基础方法基本来自深度学习/金融时间序列两个相对更加基础的学科。Cited References的统计方法是，将当前文献集合的所有参考文献放到一起，按照文献名计数并排序，称之为共引文献。这里的高引文献一般都是基础学科的理论奠基文章，是研究当前交叉学科所必须的基础知识。不过，基础知识的学习不一定要直接读奠基论文，各类视频、教科书已经从各个角度以更清晰的方式进行讲解，我们可以按照这些论文查找更合适的学习资料。
+
+##### 1.3.3 引用关系图
+
+此外，HistCite的另外一个重要功能是绘制引用关系图，在引用关系图中，圆圈越大、被指向的箭头越多，说明这篇文章在当前领域的重要性越高，以它作为灵感源头激活了领域内的大量更深入的研究，我们称之为种子文献，适合作为重点学习。以deep learning financial time series关键词查得得论文数据集为例，按照LCS降序、Limit 100的条件绘制关系图，得到如下结果：
+
+![deep learning financial time series LCS前100节点关系图](https://img.tucang.cc/api/image/show/28bd19435ea3a671b76d6faa81167dbb)
+
+可以在单独标签页中打开大图查看。这张图的主要节点相对较多，较为明显的是其中的第17号和第87号，分别如下：
+
+> 17号：Cavalcante R C, Brasileiro R C, Souza V L F, et al. Computational intelligence and financial markets: A survey and future directions[J]. Expert Systems with Applications, 2016, 55: 194-211.
+>
+> 87号：Fischer T, Krauss C. Deep learning with long short-term memory networks for financial market predictions[J]. European journal of operational research, 2018, 270(2): 654-669.
+
+由于节点圈面积大、被指向多，可以认为这两篇文章是改领域的种子文献。从标题可以看出，第17号是一篇综述，第87号是经典的使用RNN网络预测股价的模型，综述类论文主要被引用来概述之前的研究，模型类论文主要是引用其研究方法，都对我们自己写论文和做模型有很大参考价值。在图上还有其他较为明显的节点，我们可以在深入学习种子文献后，通过学习其他主要节点的摘要和结论获取新的灵感。
+
+#### 1.4 其他文献搜索方式
+
+上述WoS搜索总体看还有几个问题：1. 对于快速发展的学科，其论文数据更新不够及时，例如图上的高被引论文主要在2019年或更早，而深度学习算法近年来发展非常迅速，重要的新论文可能没有被收录；2. 其核心数据库不包含arXiv文章以及其他公司网站等形式发表的、非正式期刊登载的论文，虽然这些平台的论文的准确性确实没有官方背书，但已经有大量有效、高引用、影响力大的论文发表在上面，我们也需要参考这些平台的知识。3. 金融行业由于存在套利机制，预测效果最好的模型不会提前发表，一般会现在业界实践较长时间后才会逐步变成公开模型。我们可以关注对冲基金的最新动态，以及尝试使用不同于学术主流的新模型来做出创新。
+
+*文献搜索方式待补充*
+
+### 2 WebOfScience和HistCite的种子文献搜索结果分析
+
+为了找到深度学习预测股价等金融时间序列的论文，我们使用了8个近似的主题进行搜索，如下所示：
+
+| 检索主题                            | 总论文数量 | 采用数(相关性从高到低) | 引用关系图(前100节点)                                        |
+| ----------------------------------- | ---------- | ---------------------- | ------------------------------------------------------------ |
+| deep learning financial             | 10137      | 3000                   | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/D4Y6IBAABQ?) |
+| deep learning financial market      | 1026       | 1026                   | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/SIZOIBAAK4?) |
+| deep learning financial time series | 896        | 896                    | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/JQ2OIBAAWA?) |
+| deep learning future price          | 534        | 534                    | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/Q33OIBAAIM?) |
+| deep learning price                 | 2748       | 2748                   | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/MUTOIBAA2U?) |
+| deep learning price prediction      | 1207       | 1207                   | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/H356IBAAIA?) |
+| deep learning stock price           | 733        | 733                    | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/XM3OIBAAFE?) |
+| deep learning time series           | 10794      | 3000                   | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/2M36IBAA2U?) |
+
+具体的文献搜索结果由于数据量太大，我们使用外链，见[【金山文档】 WebOfScience种子文献搜索结果](https://kdocs.cn/l/co5BvfJv5LxZ)。下面从1.3中的3个角度分析哪些是重点论文、重点论文的特征以及我们的学习方式。
+
+#### 2.1 高被引部分
+
+如上表所示，不同主题的搜索结果数量差别很大，为了精炼论文选取并保留各主题的差异，我们尝试使用**被引数>主题前10被引平均数**这一规则筛选文献，得到结果如下：
+
+| 检索主题                            | LCS-被引顺序 | LCS-被引次数 | LCS-论文全名                                                 |
+| ----------------------------------- | ------------ | ------------ | ------------------------------------------------------------ |
+| deep learning financial             | 1            | 87           | Deep learning with long short-term memory networks for financial market predictions |
+| deep learning financial             | 2            | 71           | Deep Direct Reinforcement Learning for Financial Signal Representation and Trading |
+| deep learning financial             | 3            | 60           | Deep learning networks for stock market analysis and prediction: Methodology, data representations, and case studies |
+| deep learning financial market      | 1            | 112          | Deep learning with long short-term memory networks for financial market predictions |
+| deep learning financial market      | 2            | 73           | Deep learning networks for stock market analysis and prediction: Methodology, data representations, and case studies |
+| deep learning financial market      | 3            | 63           | Deep Direct Reinforcement Learning for Financial Signal Representation and Trading |
+| deep learning finantial time series | 1            | 79           | Deep learning with long short-term memory networks for financial market predictions |
+| deep learning finantial time series | 2            | 40           | Algorithmic financial trading with deep convolutional neural networks: Time series to image conversion approach |
+| deep learning finantial time series | 3            | 34           | Forecasting Stock Prices from the Limit Order Book using Convolutional Neural Networks |
+| deep learning future price          | 1            | 18           | Computational Intelligence and Financial Markets: A Survey and Future Directions |
+| deep learning future price          | 2            | 10           | Forecasting Stock Prices from the Limit Order Book using Convolutional Neural Networks |
+| deep learning price                 | 1            | 84           | Deep Learning for Event-Driven Stock Prediction              |
+| deep learning price                 | 2            | 71           | ModAugNet: A new forecasting framework for stock market index value with an overfitting prevention LSTM module and a prediction LSTM module |
+| deep learning price                 | 3            | 68           | Forecasting spot electricity prices: Deep learning approaches and empirical comparison of traditional algorithms |
+| deep learning price                 | 4            | 58           | Forecasting Stock Prices from the Limit Order Book using Convolutional Neural Networks |
+| deep learning price prediction      | 1            | 71           | Deep Learning for Event-Driven Stock Prediction              |
+| deep learning price prediction      | 2            | 59           | ModAugNet: A new forecasting framework for stock market index value with an overfitting prevention LSTM module and a prediction LSTM module |
+| deep learning price prediction      | 3            | 45           | Deep learning-based feature engineering for stock price movement prediction |
+| deep learning price prediction      | 4            | 42           | Stock prediction using deep learning                         |
+| deep learning stock price           | 1            | 79           | Deep Learning for Event-Driven Stock Prediction              |
+| deep learning stock price           | 2            | 51           | Deep learning-based feature engineering for stock price movement prediction |
+| deep learning stock price           | 3            | 49           | ModAugNet: A new forecasting framework for stock market index value with an overfitting prevention LSTM module and a prediction LSTM module |
+| deep learning time series           | 1            | 214          | Deep learning for time series classification: a review       |
+| deep learning time series           | 2            | 183          | Time Series Classification from Scratch with Deep Neural Networks: A Strong Baseline |
+
+在选定范围后，我们尝试根据文献题目和摘要进行进一步筛选。*Deep Learning for Event-Driven Stock Prediction*这篇文章是基于新闻事件驱动的股价预测，没有使用时间序列，可以排除，其他文章全部和我们研究的主题有关，在进一步去重合和排序后，得到的结果如下：
+
+| 检索主题                                                     | LCS-被引顺序 | LCS-被引次数 | LCS-论文全名                                                 |
+| ------------------------------------------------------------ | ------------ | ------------ | ------------------------------------------------------------ |
+| deep learning time series                                    | 1            | 214          | Deep learning for time series classification: a review       |
+| deep learning time series                                    | 2            | 183          | Time Series Classification from Scratch with Deep Neural Networks: A Strong Baseline |
+| deep learning financial market,deep learning financial,deep learning financial time series | 1            | 112          | Deep learning with long short-term memory networks for financial market predictions |
+| deep learning financial market,deep learning financial       | 2            | 73           | Deep learning networks for stock market analysis and prediction: Methodology, data representations, and case studies |
+| deep learning price,deep learning price prediction,deep learning stock price | 2            | 71           | ModAugNet: A new forecasting framework for stock market index value with an overfitting prevention LSTM module and a prediction LSTM module |
+| deep learning price                                          | 3            | 68           | Forecasting spot electricity prices: Deep learning approaches and empirical comparison of traditional algorithms |
+| deep learning financial market,deep learning financial       | 3            | 63           | Deep Direct Reinforcement Learning for Financial Signal Representation and Trading |
+| deep learning price,deep learning financial time series,deep learning future price | 4            | 58           | Forecasting Stock Prices from the Limit Order Book using Convolutional Neural Networks |
+| deep learning stock price,deep learning price prediction     | 2            | 51           | Deep learning-based feature engineering for stock price movement prediction |
+| deep learning price prediction                               | 4            | 42           | Stock prediction using deep learning                         |
+| deep learning financial time series                          | 2            | 40           | Algorithmic financial trading with deep convolutional neural networks: Time series to image conversion approach |
+| deep learning future price                                   | 1            | 18           | Computational Intelligence and Financial Markets: A Survey and Future Directions |
+
+这些论文可以认为是我们研究主题的核心论文，值得深入阅读，可以按照被引次数的顺序进行学习。除去综述文章，这里的关键模型只有两个：
+
+- CNN
+- LSTM RNN
+
+以及一篇涉及强化学习的论文。作为预测的通用模型，我们可以将其作为基础学习，后续可以在此基础上引入更现代的模型，例如transformer做深入研究。
+
+#### 2.2 高共引部分
+
+我们使用2.1中的方式筛选论文，第一步的结果如下：
+
+| 检索主题                            | 共同引用-被引顺序 | 共同引用-被引次数 | 共同引用-论文全名                                            |
+| ----------------------------------- | ----------------- | ----------------- | ------------------------------------------------------------ |
+| deep learning financial             | 1                 | 381               | ImageNet Classification with Deep Convolutional Neural Networks |
+| deep learning financial             | 2                 | 297               | Adam: A method for stochastic optimization                   |
+| deep learning financial             | 3                 | 287               | Long short-term memory                                       |
+| deep learning financial             | 4                 | 242               | Deep learning (book)                                         |
+| deep learning financial market      | 1                 | 171               | Long short-term memory                                       |
+| deep learning financial market      | 2                 | 112               | Deep learning with long short-term memory networks for financial market predictions |
+| deep learning financial market      | 3                 | 96                | Adam: A method for stochastic optimization                   |
+| deep learning financial time series | 1                 | 218               | Long short-term memory                                       |
+| deep learning financial time series | 2                 | 95                | Adam: A method for stochastic optimization                   |
+| deep learning financial time series | 3                 | 85                | ImageNet Classification with Deep Convolutional Neural Networks |
+| deep learning future price          | 1                 | 96                | Long short-term memory                                       |
+| deep learning future price          | 2                 | 37                | Deep learning with long short-term memory networks for financial market predictions |
+| deep learning price prediction      | 1                 | 287               | Long short-term memory                                       |
+| deep learning price prediction      | 2                 | 123               | Deep learning with long short-term memory networks for financial market predictions |
+| deep learning stock price           | 1                 | 193               | Long short-term memory                                       |
+| deep learning stock price           | 2                 | 109               | Deep learning with long short-term memory networks for financial market predictions |
+| deep learning stock price           | 3                 | 91                | A deep learning framework for financial time series using stacked autoencoders and long-short term memory |
+| deep learning time series           | 1                 | 695               | Long short-term memory                                       |
+| deep learning time series           | 2                 | 374               | Adam: A method for stochastic optimization                   |
+| deep learning time series           | 3                 | 346               | ImageNet Classification with Deep Convolutional Neural Networks |
+| deep learning price                 | 1                 | 416               | Supervised Sequence Labelling (book)                         |
+| deep learning price                 | 2                 | 253               | Adam: A method for stochastic optimization                   |
+| deep learning price                 | 3                 | 203               | Human-level control through deep reinforcement learning      |
+| deep learning price                 | 4                 | 190               | ImageNet Classification with Deep Convolutional Neural Networks |
+
+进一步汇总排序的结果如下：
+
+| 检索主题                                                     | 共同引用-被引顺序 | 共同引用-被引次数 | 共同引用-论文全名                                            |
+| ------------------------------------------------------------ | ----------------- | ----------------- | ------------------------------------------------------------ |
+| deep learning time series,deep learning financial,deep learning price prediction,deep learning financial time series,deep learning stock price,deep learning financial market,deep learning future price | 1                 | 695               | Long short-term memory                                       |
+| deep learning price                                          | 1                 | 416               | Supervised Sequence Labelling with Recurrent Neural Networks (book) |
+| deep learning financial,deep learning time series,deep learning price,deep learning financial time series | 1                 | 381               | ImageNet Classification with Deep Convolutional Neural Networks |
+| deep learning time series,deep learning financial,deep learning price,deep learning financial market,deep learning financial time series | 2                 | 297               | Adam: A method for stochastic optimization                   |
+| deep learning financial                                      | 4                 | 242               | Deep learning (book)                                         |
+| deep learning price                                          | 3                 | 203               | Human-level control through deep reinforcement learning      |
+| deep learning price prediction,deep learning financial market,deep learning stock price,deep learning future price | 2                 | 123               | Deep learning with long short-term memory networks for financial market predictions |
+| deep learning stock price                                    | 3                 | 91                | A deep learning framework for financial time series using stacked autoencoders and long-short term memory |
+
+从被引量足以看出这些论文做为理论基础的重要性，模型还是CNN和RNN。这些文章我们可以按顺序学习，因为都是经典论文，我们容易从教科书上找到更简单清晰的解释，但要注意的是，学科仍处于快速发展阶段，同样的模型有多种理解方式，再加上没有标准教材，作者水平良莠不齐详略不一，要多加对比挑选更适合个人的教材。
+
+#### 2.3 种子文献部分
+
+由于种子节点由目测得到，结果相对较少，经过筛选排序后的结果如下所示：
+
+| 检索主题                                                     | 引用关系图-被引次数 | 引用关系图-论文全名                                          |
+| ------------------------------------------------------------ | ------------------- | ------------------------------------------------------------ |
+| deep learning time series                                    | 79                  | A review of unsupervised feature learning and deep learning for time-series modeling |
+| deep learning financial time series                          | 79                  | Deep learning with long short-term memory networks for financial market predictions |
+| deep learning time series                                    | 72                  | InceptionTime: Finding AlexNet for time series classification |
+| deep learning financial,deep learning financial market       | 71                  | Deep Direct Reinforcement Learning for Financial Signal Representation and Trading |
+| deep learning price prediction                               | 59                  | ModAugNet: A new forecasting framework for stock market index value with an overfitting prevention LSTM module and a prediction LSTM module |
+| deep learning financial,deep learning financial market,deep learning financial time series,deep learning future price,deep learning stock price | 36                  | Computational Intelligence and Financial Markets: A Survey and Future Directions |
+| deep learning future price                                   | 10                  | Forecasting Stock Prices from the Limit Order Book using Convolutional Neural Networks |
+
+可以看出大部分是高被引文献，*A review of unsupervised feature learning and deep learning for time-series modeling*和*InceptionTime: Finding AlexNet for time series classification*比较特殊，走出了自己独特的发展路线。这里的论文作为领域的重要线索，也值得我们深入学习。
+
+#### 2.4 学习路径设计
+
+我们可以按照共引文献-高被引文献-种子文献的顺序学习，这样应该能得到一条平滑上升的学习曲线，并在学习完毕之后具备深度学习预测时间序列这一主题所必备的大部分知识。每一篇论文我们尽量做到完全理解，重点是代码部分，理论部分如果涉及太多技术细节可以跳过，我们的目标是使用模型做出合理的预测，掌握模型的使用方式最为重要。在学习完几个模型之后，最好画出思维导图进行总结，包括模型之间的关系、模型的难点及其突破方式等等。上述文献的学习我们可以都归类为基础增强，在学习完成之后再开始进入选题和扩展文献搜索路径、深入研究阶段。
+
+## Part 2—基础增强
+
+### 1. 高共引文献学习
+
+### 2. 高被引文献学习
+
+### 3. 种子文献学习
+
+### 4. 知识网络
 
 ## 参考文献
 
@@ -258,3 +507,9 @@ AI在帮助我们搜索、翻译、解释概念、分析文件等许多方面已
 [^ref15]:【如何用GPT全阶段辅助论文写作】 |**获取方式**|[B站](https://www.bilibili.com/video/BV13X4y187rJ)|~~[网盘下载]()~~
 
 [^ref16]:PyCharm 中文指南|**获取方式**|[个人网站,免费但需微信扫码关注](https://pycharm.iswbm.com/index.html)|~~[网盘下载]()~~
+
+[^ref17]:HistCite | 快速找到研究领域的关键文献 - imagine的文章|**获取方式**|[知乎](https://zhuanlan.zhihu.com/p/113685114)|~~[网盘下载]()~~|注：对CR的解释有误
+
+[^ref18]: HistCite Help|**获取方式**|[网络](https://edisciplinas.usp.br/pluginfile.php/4428395/mod_page/content/118/Manual_histCIte_bom.pdf)|[网盘下载](https://pan.baidu.com/s/1X9-WGi8IL0n7Mk8kF5PD0A?pwd=ab12)
+
+[^ref19]: Ding X, Zhang Y, Liu T, et al. Deep learning for event-driven stock prediction[C]//Twenty-fourth international joint conference on artificial intelligence. 2015.|**获取方式**|熊猫学术|[网盘下载](https://pan.baidu.com/s/1Y84f6eI7M_bXwr2aLX5yyg?pwd=ab12)
