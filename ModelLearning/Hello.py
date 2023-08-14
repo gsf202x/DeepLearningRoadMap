@@ -1,0 +1,1 @@
+# push to remote shall be forbidden
