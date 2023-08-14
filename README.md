@@ -330,16 +330,16 @@ HistCite主要提供了3个角度的分析结果，见图中标号。分别解�
 
 为了找到深度学习预测股价等金融时间序列的论文，我们使用了8个近似的主题进行搜索，如下所示：
 
-| 检索主题                            | 总论文数量 | 采用数(相关性从高到低) | 引用关系图(前100节点)                                        |
-| ----------------------------------- | ---------- | ---------------------- | ------------------------------------------------------------ |
-| deep learning financial             | 10137      | 3000                   | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/D4Y6IBAABQ?) |
-| deep learning financial market      | 1026       | 1026                   | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/SIZOIBAAK4?) |
-| deep learning financial time series | 896        | 896                    | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/JQ2OIBAAWA?) |
-| deep learning future price          | 534        | 534                    | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/Q33OIBAAIM?) |
-| deep learning price                 | 2748       | 2748                   | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/MUTOIBAA2U?) |
-| deep learning price prediction      | 1207       | 1207                   | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/H356IBAAIA?) |
-| deep learning stock price           | 733        | 733                    | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/XM3OIBAAFE?) |
-| deep learning time series           | 10794      | 3000                   | ![img](http://www.kdocs.cn/api/v3/office/copy/OWNkZ2VSSDNiRzR3V0cyTVgrR2c5TStxbzRzclpIeU0zNGxiM3FGVG5BV0VpSTJMakZRN2RtMEYwQXBPYzdsNkZPNERId2UvK2Q5dGQ1eVYwamN4NEFVWWU0ekZwdzVqZVZsWHZGMGdvSjBwbTdCNHZIZ05aMHVacEh3NXhBSkxPaGJ1YlU5V1d0anBpY0lGaDhNL1JkUE1Jd0tiTzhLYjVBbExXMnpkUTg5TC84THArL1RZTC9DRTNTbzd4US9ETUlUN0lJZnVEekc0YnFGdlZiUXRCSmxQMFM3Q3lXY1FTdGozUlNhR1lkSU14V2hjWFcwQkdLUjNrVzVEbGI2M0owUmVsaXVDY3pnPQ==/attach/object/2M36IBAA2U?) |
+| 检索主题                            | 总论文数量 | 采用数(相关性从高到低) |
+| ----------------------------------- | ---------- | ---------------------- |
+| deep learning financial             | 10137      | 3000                   |
+| deep learning financial market      | 1026       | 1026                   |
+| deep learning financial time series | 896        | 896                    |
+| deep learning future price          | 534        | 534                    |
+| deep learning price                 | 2748       | 2748                   |
+| deep learning price prediction      | 1207       | 1207                   |
+| deep learning stock price           | 733        | 733                    |
+| deep learning time series           | 10794      | 3000                   |
 
 具体的文献搜索结果由于数据量太大，我们使用外链，见[【金山文档】 WebOfScience种子文献搜索结果](https://kdocs.cn/l/co5BvfJv5LxZ)。下面从1.3中的3个角度分析哪些是重点论文、重点论文的特征以及我们的学习方式。
 
@@ -466,7 +466,39 @@ HistCite主要提供了3个角度的分析结果，见图中标号。分别解�
 
 ## Part 2—基础增强
 
+### 0. 通用基础
+
+
+
 ### 1. 高共引文献学习
+
+#### 1.1 Long short-term memory[^ref20]
+
+我们尝试在这篇论文的学习过程中建立完整、标准的学习方法，在每个阶段关注的重点是什么。
+
+##### 1.1.1 熟悉介绍部分的名词和方法，熟悉论文要研究的问题
+
+作者提到循环网络可以使用反馈连接存储近期的事件(短期记忆)，传统训练方法是BPTT和RTRL，但是在时间序列的步长较大时，系统或者花太多时间学习、或者完全不起作用。本文目的是提出一种改善前馈网络反向传播效果的新型网络结构。这种结构使用了constant error flow、特殊网络节点和梯度下降法实现了高效训练。
+
+***<u>继续学习的前提，就变成了熟悉循环网络更基础的结构，最基本的循环网络是什么样的，是如何训练的？</u>***
+
+为什么循环神经网络有记忆性？
+
+##### 1.1.2 Constant Error Backprop的数学推导解析(可跳过)
+
+##### 1.1.3 Long short-term memory的数学推导解析，为何更优(可跳过)
+
+##### 1.1.4 LSTM模型代码实现(基于Pytorch已实现的LSTM算法)
+
+##### 1.1.5 写代码验证6个试验
+
+##### 1.1.6 文章结论与试验结果对比分析
+
+##### 1.1.7 全文总结(流程图或思维导图等形式)
+
+做为初学者，我们会在介绍部分遇到许多新的学术名词，为了彻底理解论文，我们只有尽可能扫除所有难以理解的学术名词，才能跟得上作者的思路。
+
+
 
 ### 2. 高被引文献学习
 
@@ -513,3 +545,4 @@ HistCite主要提供了3个角度的分析结果，见图中标号。分别解�
 [^ref18]: HistCite Help|**获取方式**|[网络](https://edisciplinas.usp.br/pluginfile.php/4428395/mod_page/content/118/Manual_histCIte_bom.pdf)|[网盘下载](https://pan.baidu.com/s/1X9-WGi8IL0n7Mk8kF5PD0A?pwd=ab12)
 
 [^ref19]: Ding X, Zhang Y, Liu T, et al. Deep learning for event-driven stock prediction[C]//Twenty-fourth international joint conference on artificial intelligence. 2015.|**获取方式**|熊猫学术|[网盘下载](https://pan.baidu.com/s/1Y84f6eI7M_bXwr2aLX5yyg?pwd=ab12)
+[^ref20]: Hochreiter S, Schmidhuber J. Long short-term memory[J]. Neural computation, 1997, 9(8): 1735-1780.|**获取方式**|熊猫学术|[网盘下载](https://pan.baidu.com/s/1Y84f6eI7M_bXwr2aLX5yyg?pwd=ab12)
